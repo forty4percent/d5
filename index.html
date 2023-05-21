@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Null 5</title>
+    </head>
+    <body>
+        <pre>
+    import pandas as pd #Python library used for working with data sets
+    import numpy as np #Python library used for working with arrays
+    import seaborn as sn # library for making statistical graphics in Python
+    import matplotlib.pyplot as mat #used to create 2D graphs and plots by using python scripts
+
+    df1=pd.read_csv('D:/dsbda basic/DSBDA/heart.csv')
+    df1.head()
+
+    df2=pd.read_csv('D:/dsbda basic/DSBDA-Final-Problem-Statements-main/PS5/AirQuality.csv', sep=';')
+    df2.head()
+
+    # A. Data Cleaning
+    df3=df2.iloc[:,:15] #iloc stands for “integer location”.
+    #It is used to select rows and columns from a Pandas DataFrame or a Series using integer-based indexing
+
+    df3
+
+    df3.isna().sum().sum()
+
+    df4=df3.dropna()
+    df4
+
+    #Replacing the Object dtype of Date to Date dtype
+    df4['Date']=pd.to_datetime(df4['Date'])
+
+    #To Replace the Comma's with Dot
+    df4.replace(to_replace=',',value='.',regex=True,inplace=True)
+    df4
+
+    df4.drop_duplicates(inplace=True)
+    df4 #Drop Duplicates
+
+    # B Data Integration
+
+    DataSet1=df4[['Date','Time','T','RH','AH']].loc[0:50]
+    DataSet1.head()
+
+    DataSet2=df4[['Date','Time','T','RH','AH']].loc[51:100]
+    DataSet2.head()
+
+    integrated=pd.concat([DataSet1,DataSet2])
+    integrated
+
+    # Data Visualization
+
+    import matplotlib.pyplot as plt
+    plt.figure(figsize=(10, 6))
+    plt.subplot(2, 2, 1)  # Create a subplot (2 rows, 2 columns, subplot 1)
+    plt.hist(df1['age'], bins=10, edgecolor='k')
+    plt.xlabel('Age')
+    plt.ylabel('Frequency')
+    plt.title('Age Distribution')
+    plt.show()
+
+    # Bar plot of sex
+    plt.subplot(2, 2, 2)  # Create a subplot (2 rows, 2 columns, subplot 2)
+    sex_counts = df1['sex'].value_counts()
+    plt.bar(sex_counts.index, sex_counts.values)
+    plt.xlabel('Sex (0 = female, 1 = male)')
+    plt.ylabel('Count')
+    plt.title('Gender Distribution')
+
+    # Scatter plot of age and cholesterol
+    plt.subplot(2, 2, 3)  # Create a subplot (2 rows, 2 columns, subplot 3)
+    plt.scatter(df1['age'], df1['chol'], alpha=0.5)
+    plt.xlabel('Age')
+    plt.ylabel('Cholesterol')
+    plt.title('Age vs. Cholesterol')
+
+    plt.subplot(2,2,4)
+    plt.boxplot([df1[df1['target']==0]['trestbps'],
+            df1[df1['target']==1]['trestbps']],
+            labels=['No Disease','Disease'])
+    plt.xlabel('Disease')
+    plt.ylabel('Restng Blood Pressure')
+    plt.title('Resting Blood Pressure by Target')
+    plt.tight_layout()
+
+    # Visualization of Air Quality DataSet
+
+    # Scatter plot of NOx(GT) vs. NO2(GT)
+    plt.subplot(2, 2, 2)  # Create a subplot (2 rows, 2 columns, subplot 2)
+    plt.scatter(df2['NOx(GT)'], df2['NO2(GT)'], alpha=0.5)
+    plt.xlabel('NOx(GT)')
+    plt.ylabel('NO2(GT)')
+    plt.title('NOx(GT) vs. NO2(GT)')
+
+    # Scatter plot of NO2(GT) vs. PT08.S4(NO2)
+    plt.subplot(2, 2, 4)  # Create a subplot (2 rows, 2 columns, subplot 4)
+    plt.scatter(df2['NO2(GT)'], df2['PT08.S4(NO2)'], alpha=0.5)
+    plt.xlabel('NO2(GT)')
+    plt.ylabel('PT08.S4(NO2)')
+    plt.title('NO2(GT) vs. PT08.S4(NO2)')
+    plt.tight_layout()  # Adjust the spacing between subplots
+    plt.show()  # Display the plots
+
+    # Scatter plot of PT08.S1(CO) vs. PT08.S2(NMHC)
+    plt.subplot(2, 2, 2)  # Create a subplot (2 rows, 2 columns, subplot 2)
+    plt.scatter(df2['PT08.S1(CO)'], df2['PT08.S2(NMHC)'], alpha=0.5)
+    plt.xlabel('PT08.S1(CO)')
+    plt.ylabel('PT08.S2(NMHC)')
+    plt.title('PT08.S1(CO) vs. PT08.S2(NMHC)')
+
+    # Box plot of NOx(GT)
+    plt.subplot(2, 2, 3)  # Create a subplot (2 rows, 2 columns, subplot 3)
+    plt.boxplot(df2['NOx(GT)'])
+    plt.xlabel('NOx(GT)')
+    plt.ylabel('Value')
+    plt.title('NOx(GT)')
+    # We cannot display Box plot because data is too much scattered
+        </pre>
+    </body>
+</html>
